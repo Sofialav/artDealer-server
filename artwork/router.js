@@ -30,14 +30,16 @@ router.post("/artworks", auth, async (req, res, next) => {
   }
 });
 // update artwork
-router.put("/artworks/:artworkId", async (req, res, next) => {
+router.put("/artworks/:artworkId", auth, async (req, res, next) => {
   try {
-    const artwork = await Artwork.findByPk(req.params.artworkId);
-    if (artwork) {
-      const updArtwork = await artwork.update(req.body);
-      return res.json(updArtwork);
-    } else {
-      return res.status(404).send("Artwork does not exist");
+    if (req.artist) {
+      const artwork = await Artwork.findByPk(req.params.artworkId);
+      if (artwork) {
+        const updArtwork = await artwork.update(req.body);
+        return res.json(updArtwork);
+      } else {
+        return res.status(404).send("Artwork does not exist");
+      }
     }
   } catch (error) {
     next(error);

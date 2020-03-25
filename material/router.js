@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
 const Material = require("./model");
+const Artwork = require("../artwork/model");
 
 // add material
 router.post("/materials", async (req, res, next) => {
@@ -23,6 +24,22 @@ router.get("/materials", async (req, res, next) => {
       material => (material = { id: material.id, name: material.name })
     );
     res.status(201).json(cleanMaterials);
+  } catch (error) {
+    next(error);
+  }
+});
+// add artwork to material
+router.put("/materials/:materialId", async (req, res, next) => {
+  try {
+    if (!req.body.artworkId) {
+      return res.status(401).send("Provide artwork id");
+    }
+    const material = await Material.findByPk(req.params.materialId);
+    if (material) {
+      const updMaterial = await material.addArtwork(req.body.artworkId);
+      return res.json(updMaterial);
+    }
+    return res.status(404).send("Material does not exist");
   } catch (error) {
     next(error);
   }
