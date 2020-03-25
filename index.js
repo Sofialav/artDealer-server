@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const artist = require("./artist/model");
 const artwork = require("./artwork/model");
+const material = require("./material/model");
 
 const port = process.env.PORT || 4000;
 const app = express();
