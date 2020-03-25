@@ -7,11 +7,11 @@ const Artwork = db.define("artwork", {
   name: { type: Sequelize.STRING, allowNull: false },
   description: { type: Sequelize.TEXT, allowNull: true },
   img: { type: Sequelize.TEXT, allowNull: false },
-  is_framed: { type: Sequelize.TEXT, allowNull: false },
+  is_framed: { type: Sequelize.TEXT, allowNull: true },
   price: { type: Sequelize.FLOAT, allowNull: false },
   height_cm: { type: Sequelize.INTEGER, allowNull: true },
   width_cm: { type: Sequelize.INTEGER, allowNull: true },
-  weight_kg: { type: Sequelize.FLOAT, allowNull: false },
+  weight_kg: { type: Sequelize.FLOAT, allowNull: true },
   ship_country: { type: Sequelize.STRING, allowNull: false }
 });
 
