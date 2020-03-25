@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 const Artist = require("../artist/model");
+const ArtForm = require("../artForm/model");
 
 const Artwork = db.define("artwork", {
   name: { type: Sequelize.STRING, allowNull: false },
@@ -16,5 +17,7 @@ const Artwork = db.define("artwork", {
 
 Artwork.belongsTo(Artist);
 Artist.hasMany(Artwork);
+Artwork.belongsTo(ArtForm);
+ArtForm.hasMany(Artwork);
 
 module.exports = Artwork;
