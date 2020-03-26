@@ -29,7 +29,7 @@ router.get("/materials", async (req, res, next) => {
   }
 });
 // add artwork to material
-router.put("/materials/:materialId", async (req, res, next) => {
+router.put("/materials/:materialId/artworks", async (req, res, next) => {
   try {
     if (!req.body.artworkId) {
       return res.status(401).send("Provide artwork id");
