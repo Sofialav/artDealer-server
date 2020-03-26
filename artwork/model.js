@@ -12,7 +12,8 @@ const Artwork = db.define("artwork", {
   height_cm: { type: Sequelize.INTEGER, allowNull: true },
   width_cm: { type: Sequelize.INTEGER, allowNull: true },
   weight_kg: { type: Sequelize.FLOAT, allowNull: true },
-  ship_country: { type: Sequelize.STRING, allowNull: false }
+  ship_country: { type: Sequelize.STRING, allowNull: false },
+  is_sold: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 });
 
 Artwork.belongsTo(Artist);

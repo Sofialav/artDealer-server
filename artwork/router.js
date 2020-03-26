@@ -5,7 +5,7 @@ const auth = require("../authorization/middleware");
 
 // add new artwork
 router.post("/artworks", auth, async (req, res, next) => {
-  // NEED TO add artFormId validation later
+  // NEED TO add artFormId validation later (or not)
   try {
     if (req.artist) {
       switch (true) {
@@ -29,6 +29,27 @@ router.post("/artworks", auth, async (req, res, next) => {
     next(error);
   }
 });
+// get artworks
+router.get("/artworks", async (req, res, next) => {
+  try {
+    const limit = Math.min(req.query.limit || 15, 500);
+    const offset = req.query.offset || 0;
+    const artworks = await Artwork.findAndCountAll({
+      where: { is_sold: false },
+      order: [["createdAt", "DESC"]],
+      limit,
+      offset
+    });
+    if (artworks.count) {
+      return res.send({ artworks: artworks.rows, total: artworks.count });
+    } else {
+      res.status(404).send("No artworks exist");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 // update artwork
 router.put("/artworks/:artworkId", auth, async (req, res, next) => {
   try {
