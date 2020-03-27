@@ -3,16 +3,18 @@ const Artwork = require("./artwork/model");
 async function seedDB() {
   console.log("RUNNING!!!");
   const aw1 = await Artwork.create({
-    name: "Painting1",
+    name: "Painting7",
     img: "fakeurl",
-    price: 100,
-    ship_country: "Spain"
+    price: 500,
+    ship_country: "Germany",
+    artistId: 2
   });
   const aw2 = await Artwork.create({
-    name: "Painting2",
+    name: "Painting8",
     img: "fakeurl2",
-    price: 200,
-    ship_country: "Italy"
+    price: 350,
+    ship_country: "Italy",
+    artistId: 1
   });
 }
 
