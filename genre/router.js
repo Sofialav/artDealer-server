@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
 const Genre = require("./model");
+const Artwork = require("../artwork/model");
 
 // add genre
 router.post("/genres", async (req, res, next) => {
@@ -27,5 +28,20 @@ router.get("/genres", async (req, res, next) => {
     next(error);
   }
 });
-
+// add artwork to genre
+router.put("/genres/:genreId/artworks", async (req, res, next) => {
+  try {
+    if (!req.body.artworkId) {
+      return res.status(401).send("Provide artwork id");
+    }
+    const genre = await Genre.findByPk(req.params.genreId);
+    if (genre) {
+      const updGenre = await genre.addArtwork(req.body.artworkId);
+      return res.json(updGenre);
+    }
+    return res.status(404).send("Genre does not exist");
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

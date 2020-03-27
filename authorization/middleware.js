@@ -10,8 +10,8 @@ function auth(req, res, next) {
     try {
       const data = toData(auth[1]);
       Artist.findByPk(data.artistId, {
-        attributes: { exclude: ["password", "email", "updatedAt"] }
-        // include: [Artwork]
+        // attributes: { exclude: ["password", "email", "updatedAt"] }
+        include: [Artwork]
       })
         .then(artist => {
           if (!artist) return next("Artist does not exist");
@@ -26,7 +26,7 @@ function auth(req, res, next) {
     }
   } else {
     res.status(401).send({
-      message: "Please supply some valid credentials"
+      message: "Please supply valid credentials to login"
     });
   }
 }

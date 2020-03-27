@@ -4,6 +4,7 @@ const router = new Router();
 const bcrypt = require("bcrypt");
 const Artist = require("./model");
 
+// create new artist
 router.post("/artists", async (req, res, next) => {
   try {
     if (!req.body.login || !req.body.password || !req.body.email) {
@@ -25,5 +26,24 @@ router.post("/artists", async (req, res, next) => {
     next(error);
   }
 });
-
+// get artists
+router.get("/artists", async (req, res, next) => {
+  try {
+    const limit = Math.min(req.query.limit || 15, 500);
+    const offset = req.query.offset || 0;
+    const artists = await Artist.findAndCountAll({
+      attributes: { exclude: ["password", "email", "login"] },
+      order: [["createdAt", "DESC"]],
+      limit,
+      offset
+    });
+    if (artists.count) {
+      return res.send({ artists: artists.rows, total: artists.count });
+    } else {
+      res.status(404).send("No artists exist");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
