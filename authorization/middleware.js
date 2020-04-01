@@ -10,7 +10,6 @@ function auth(req, res, next) {
     try {
       const data = toData(auth[1]);
       Artist.findByPk(data.artistId, {
-        // attributes: { exclude: ["password", "email", "updatedAt"] }
         include: [
           {
             model: Artwork,

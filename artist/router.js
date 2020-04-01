@@ -3,6 +3,7 @@ const { Router } = require("express");
 const router = new Router();
 const bcrypt = require("bcrypt");
 const Artist = require("./model");
+const Artwork = require("../artwork/model");
 
 // create new artist
 router.post("/artists", async (req, res, next) => {
@@ -50,7 +51,12 @@ router.get("/artists", async (req, res, next) => {
 router.get("/artists/:artistId", async (req, res, next) => {
   try {
     const artist = await Artist.findByPk(req.params.artistId, {
-      attributes: { exclude: ["password", "email", "updatedAt"] }
+      attributes: { exclude: ["password", "email", "updatedAt"] },
+      include: [
+        {
+          model: Artwork
+        }
+      ]
     });
     if (artist) {
       return res.json(artist);
