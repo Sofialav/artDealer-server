@@ -21,7 +21,6 @@ const Artist = db.define("artist", {
   password: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: { args: true, msg: "Email already in use!" },
     validate: {
       // CHECK and IMPROVE VALIDATION
       len: { args: 6, msg: "Password length should be at least 6 symbols" }

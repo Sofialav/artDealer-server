@@ -46,4 +46,20 @@ router.get("/artists", async (req, res, next) => {
     next(error);
   }
 });
+// get artist by Id (public info)
+router.get("/artists/:artistId", async (req, res, next) => {
+  try {
+    const artist = await Artist.findByPk(req.params.artistId, {
+      attributes: { exclude: ["password", "email", "updatedAt"] }
+    });
+    if (artist) {
+      return res.json(artist);
+    } else {
+      return res.status(404).send("Artist does not exist");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
