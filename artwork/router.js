@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const router = new Router();
 const Artwork = require("./model");
+const Artist = require("../artist/model");
+const Material = require("../material/model");
 const auth = require("../authorization/middleware");
 
 // add new artwork
@@ -61,6 +63,30 @@ router.put("/artworks/:artworkId", auth, async (req, res, next) => {
       } else {
         return res.status(404).send("Artwork does not exist");
       }
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+// get artwork by Id
+router.get("/artworks/:artworkId", async (req, res, next) => {
+  try {
+    const artwork = await Artwork.findByPk(req.params.artworkId, {
+      include: [
+        {
+          model: Artist,
+          attributes: { exclude: ["password", "email", "updatedAt"] }
+        },
+        {
+          model: Material,
+          include: [Artwork]
+        }
+      ]
+    });
+    if (artwork) {
+      return res.json(artwork);
+    } else {
+      return res.status(404).send("Artwork does not exist");
     }
   } catch (error) {
     next(error);
