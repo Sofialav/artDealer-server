@@ -2,6 +2,7 @@ const { Router } = require("express");
 const router = new Router();
 const Artwork = require("./model");
 const Artist = require("../artist/model");
+const Material = require("../material/model");
 const auth = require("../authorization/middleware");
 
 // add new artwork
@@ -75,6 +76,10 @@ router.get("/artworks/:artworkId", async (req, res, next) => {
         {
           model: Artist,
           attributes: { exclude: ["password", "email", "updatedAt"] }
+        },
+        {
+          model: Material,
+          include: [Artwork]
         }
       ]
     });
